@@ -1,98 +1,106 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Link } from 'expo-router';
+import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
+export default function HomePage() {
   return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
-
-export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
-
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
-
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
-
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.content}>
+        <View style={styles.mascot}>
+          <View style={styles.eyeRow}>
+            <View style={styles.eye} />
+            <View style={styles.eye} />
+          </View>
+          <View style={styles.smile} />
+        </View>
+        <Text style={styles.kicker}>BasuraGo</Text>
+        <Text style={styles.title}>Phase 1 foundation is starting with admin operations.</Text>
+        <Text style={styles.body}>
+          The customer and rider flows will come one feature at a time after the admin shell,
+          shared types, and Firebase boundary are stable.
+        </Text>
+        <Link href="/admin" asChild>
+          <Pressable style={styles.button}>
+            <Text style={styles.buttonText}>Open Admin Dashboard</Text>
+          </Pressable>
+        </Link>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
   safeArea: {
     flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
+    backgroundColor: '#f6f8f4',
   },
-  heroSection: {
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 24,
+    gap: 14,
+    maxWidth: 720,
+  },
+  mascot: {
+    width: 64,
+    height: 64,
+    borderRadius: 8,
+    backgroundColor: '#b7e36b',
+    borderWidth: 2,
+    borderColor: '#153d35',
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
   },
-  title: {
-    textAlign: 'center',
+  eyeRow: {
+    flexDirection: 'row',
+    gap: 10,
   },
-  code: {
+  eye: {
+    width: 7,
+    height: 7,
+    borderRadius: 4,
+    backgroundColor: '#153d35',
+  },
+  smile: {
+    width: 24,
+    height: 10,
+    borderBottomWidth: 2,
+    borderColor: '#153d35',
+    borderRadius: 10,
+  },
+  kicker: {
+    color: '#527066',
+    fontSize: 14,
+    lineHeight: 20,
+    fontWeight: '800',
     textTransform: 'uppercase',
   },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+  title: {
+    color: '#153d35',
+    fontSize: 34,
+    lineHeight: 40,
+    fontWeight: '800',
+    maxWidth: 620,
+  },
+  body: {
+    color: '#48645a',
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '500',
+    maxWidth: 620,
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'flex-start',
+    minHeight: 48,
+    borderRadius: 8,
+    paddingHorizontal: 18,
+    backgroundColor: '#153d35',
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 15,
+    lineHeight: 20,
+    fontWeight: '800',
   },
 });
